@@ -1,0 +1,190 @@
+.codexin-elementor-addons-service{
+	position: relative;
+}
+.codexin-elementor-addons-service .codexin-elementor-addons-contents {
+	position: relative;
+	z-index: 10;
+}
+.codexin-elementor-addons-service::before{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background: rgba( 0, 0, 0, 0);
+	z-index: 9;
+	transition: .5s ease;
+}
+.codexin-elementor-addons-service::after{
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 0;
+	height: 100%;
+	background: rgba( 0, 0, 0, 0);
+	z-index: 9;
+	transition: .5s ease;
+}
+.codexin-elementor-addons-service:hover:before,
+.codexin-elementor-addons-service:hover:after{
+	transition: .5s ease;
+	width: 50%;
+
+}
+
+
+/**************/
+.codexin-elementor-addons-btn-item {
+  background: none;
+  border: 0;
+  box-sizing: border-box;  
+  box-shadow: inset 0 0 0 2px transparent;
+  color: #ffffff;
+  font-size: inherit;
+  font-weight: 700;
+  position: relative;
+  vertical-align: middle;
+  background: transparent;
+  line-height: 18px;
+  transition: .5s;
+}
+.codexin-elementor-addons-btn-item::before, .codexin-elementor-addons-btn-item::after {
+  box-sizing: inherit;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.codexin-elementor-addons-btn-item.draw {
+  transition: color 0.25s;
+}
+.codexin-elementor-addons-btn-item.draw::before, .codexin-elementor-addons-btn-item.draw::after {
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+.codexin-elementor-addons-btn-item.draw::before {
+  top: 0;
+  left: 0;
+}
+.codexin-elementor-addons-btn-item.draw::after {
+  bottom: 0;
+  right: 0;
+}
+.codexin-elementor-addons-btn-item.draw:hover {
+  color: #ffffff;
+  background: transparent;
+}
+.codexin-elementor-addons-btn-item.draw:hover::before, .codexin-elementor-addons-btn-item.draw:hover::after {
+  width: 100%;
+  height: 100%;
+}
+.codexin-elementor-addons-btn-item.draw:hover::before {
+  border-top-color: #ffffff;
+  border-right-color: #ffffff;
+  transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+.codexin-elementor-addons-btn-item.draw:hover::after {
+  border-bottom-color: #ffffff;
+  border-left-color: #ffffff;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
+}
+
+.codexin-elementor-addons-btn-item.meet:hover {
+  color: #ffffff;
+  background: transparent;
+}
+.codexin-elementor-addons-btn-item.meet::after {
+  top: 0;
+  left: 0;
+}
+.codexin-elementor-addons-btn-item.meet:hover::before {
+  border-top-color: #ffffff;
+  border-right-color: #ffffff;
+}
+.codexin-elementor-addons-btn-item.meet:hover::after {
+  border-bottom-color: #ffffff;
+  border-left-color: #ffffff;
+  transition: height 0.25s ease-out, width 0.25s ease-out 0.25s;
+}
+
+.codexin-elementor-addons-btn-item.center:hover {
+  color: #ffffff;
+  background: transparent;
+}
+.codexin-elementor-addons-btn-item.center::before, .codexin-elementor-addons-btn-item.center::after {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+.codexin-elementor-addons-btn-item.center::before {
+  border-top: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  -webkit-transform: scale3d(0, 1, 1);
+          transform: scale3d(0, 1, 1);
+}
+.codexin-elementor-addons-btn-item.center::after {
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  -webkit-transform: scale3d(1, 0, 1);
+          transform: scale3d(1, 0, 1);
+}
+.codexin-elementor-addons-btn-item.center:hover::before, .codexin-elementor-addons-btn-item.center:hover::after {
+  -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
+}
+
+.codexin-elementor-addons-btn-item.spin {
+  width: 5em;
+  height: 5em;
+  padding: 0;
+}
+.codexin-elementor-addons-btn-item.spin:hover {
+  color: #ffffff;
+  background: transparent;
+}
+.codexin-elementor-addons-btn-item.spin::before, .codexin-elementor-addons-btn-item.spin::after {
+  top: 0;
+  left: 0;
+}
+.codexin-elementor-addons-btn-item.spin::before {
+  border: 2px solid transparent;
+}
+.codexin-elementor-addons-btn-item.spin:hover::before {
+  border-top-color: #ffffff;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  transition: border-top-color 0.15s linear, border-right-color 0.15s linear 0.1s, border-bottom-color 0.15s linear 0.2s;
+}
+.codexin-elementor-addons-btn-item.spin::after {
+  border: 0 solid transparent;
+}
+.codexin-elementor-addons-btn-item.spin:hover::after {
+  border-top: 2px solid #ffffff;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+  transition: border-left-width 0s linear 0.35s, -webkit-transform 0.4s linear 0s;
+  transition: transform 0.4s linear 0s, border-left-width 0s linear 0.35s;
+  transition: transform 0.4s linear 0s, border-left-width 0s linear 0.35s, -webkit-transform 0.4s linear 0s;
+}
+
+.codexin-elementor-addons-btn-item.circle {
+  border-radius: 100%;
+  box-shadow: none;
+  background: transparent;
+}
+.codexin-elementor-addons-btn-item.circle::before, .circle::after {
+  border-radius: 100%;
+}
+

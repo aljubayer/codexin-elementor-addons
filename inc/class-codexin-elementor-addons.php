@@ -90,6 +90,61 @@ final class Codexin_Elementor_Addons {
 	);
 
 	/**
+	 * Style list.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array styles to register.
+	 */
+	
+	private $style_list = array(
+			array(
+				'handle'	=> 'bootstrap',
+				'src'		=> CODEXIN_ELEMENTOR_ASSETS_BASE_URI . 'assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css',
+				'deps'		=> array(),
+				'ver'		=> '4.2.1',
+				'media'		=> 'all'
+			),
+			array(
+				'handle'	=> 'codexin-elementor-addons-styles',
+				'src'		=> CODEXIN_ELEMENTOR_ASSETS_BASE_URI . 'assets/css/styles.css',
+				'deps'		=> array(),
+				'ver'		=> '4.2.1',
+				'media'		=> 'all'
+			),
+
+		);	
+
+	/**
+	 * Script list.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array scripts to register.
+	 */
+	
+	private $script_list = array(
+			array(
+				'handle' 	=> 'popper',
+				'src' 		=> CODEXIN_ELEMENTOR_ASSETS_BASE_URI . 'assets/vendor/popper/js/popper.min.js',
+				'deps' 		=> array( 'jquery' ),
+				'ver'		=> '1.14.6',
+				'in_footer'	=> true
+			),
+			array(
+				'handle' 	=> 'bootstrap',
+				'src' 		=> CODEXIN_ELEMENTOR_ASSETS_BASE_URI . 'assets/vendor/bootstrap-4.2.1/js/bootstrap.min.js',
+				'deps' 		=> array( 'jquery','popper' ),
+				'ver'		=> '4.2.1',
+				'in_footer'	=> true
+			),
+		);
+
+	/**
 	 * Instance
 	 *
 	 * Ensures only one instance of the class is loaded or can be loaded.
@@ -140,9 +195,7 @@ final class Codexin_Elementor_Addons {
 	 * @access public
 	 */
 	public function i18n() {
-
 		load_plugin_textdomain( 'codexin-elementor-addons' );
-
 	}
 
 	/**
@@ -152,7 +205,6 @@ final class Codexin_Elementor_Addons {
 	 * Checks for basic plugin requirements, if one check fail don't continue,
 	 * if all check have passed load the files required to run the plugin.
 	 *
-	 * Fired by `plugins_loaded` action hook.
 	 *
 	 * @since 1.0.0
 	 *
@@ -160,19 +212,19 @@ final class Codexin_Elementor_Addons {
 	 */
 	public function init() {
 
-		// Check if Elementor installed and activated
+		// Check if Elementor installed and activated.
 		if ( ! did_action( 'elementor/loaded' ) ) {
 			add_action( 'admin_notices', [ $this, 'admin_notice_missing_main_plugin' ] );
 			return;
 		}
 
-		// Check for required Elementor version
+		// Check for required Elementor version.
 		if ( ! version_compare( ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=' ) ) {
 			add_action( 'admin_notices', [ $this, 'admin_notice_minimum_elementor_version' ] );
 			return;
 		}
 
-		// Check for required PHP version
+		// Check for required PHP version.
 		if ( version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '<' ) ) {
 			add_action( 'admin_notices', [ $this, 'admin_notice_minimum_php_version' ] );
 			return;
@@ -188,6 +240,7 @@ final class Codexin_Elementor_Addons {
 	 * @access public
 	 */
     public function add_codexin_in_elementor_category() {
+
 		\Elementor\Plugin::instance()->elements_manager->add_category( 'codexin-addons', array(
 			'title' => __( 'Codexin Addons', 'codexin-elementor-addons' ),
 			'icon'  => 'fa fa-plug',
@@ -202,23 +255,8 @@ final class Codexin_Elementor_Addons {
 	 * @access public
 	 */
 	public function register_frontend_scripts() {
-		$scripts = array(
-			array(
-				'handle' 	=> 'popper',
-				'src' 		=> CODEXIN_ELEMENTOR_ADDONS_DIR . 'assets/vendor/popper/js/popper.min.js',
-				'deps' 		=> array( 'jquery' ),
-				'ver'		=> '1.14.6',
-				'in_footer'	=> true
-			),
-			array(
-				'handle' 	=> 'bootstrap',
-				'src' 		=> CODEXIN_ELEMENTOR_ADDONS_DIR . 'assets/vendor/bootstrap-4.2.1/js/bootstrap.min.js',
-				'deps' 		=> array( 'jquery','popper' ),
-				'ver'		=> '4.2.1',
-				'in_footer'	=> true
-			),
-		);
-		foreach ( $scripts as $key => $value) {
+
+		foreach ( $this->script_list as $key => $value) {
 			if( true === wp_script_is( $value['handle'], $list = 'registered' ) ){
 				continue;
 			}
@@ -241,36 +279,18 @@ final class Codexin_Elementor_Addons {
 	 */
 	public function register_frontend_styles() {
 
-		$styles = array(
-			array(
-				'handle'	=> 'bootstrap',
-				'src'		=> CODEXIN_ELEMENTOR_ADDONS_DIR . 'assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css',
-				'deps'		=> array(),
-				'ver'		=> '4.2.1',
-				'media'		=> 'all'
-			),
-			array(
-				'handle'	=> 'test-style',
-				'src'		=> CODEXIN_ELEMENTOR_ADDONS_DIR . 'assets/css/test-style.css',
-				'deps'		=> array(),
-				'ver'		=> '4.2.1',
-				'media'		=> 'all'
-			),
-
-		);
-
-		foreach ( $styles as $key => $value) {		
-
-			if( false === wp_style_is( $value['handle'], $list = 'registered' ) ){				
-				wp_register_style( 
-			 	$value['handle'], 
-			 	$value['src'], 
-			 	$value['deps'], 
-			 	$value['ver'], 
-			 	$value['media'] 
-			);
+		foreach ( $this->style_list as $key => $value ) {
+			if( true === wp_style_is( $value['handle'], $list = 'registered' ) ) {
+				continue;
 			}
-						
+
+			wp_register_style(
+				 	$value['handle'], 
+				 	$value['src'], 
+				 	$value['deps'], 
+				 	$value['ver'], 
+				 	$value['media'] 
+				);
 		}
 
 	}
@@ -282,15 +302,14 @@ final class Codexin_Elementor_Addons {
 	 *
 	 * @access public
 	 */
-	public function enqueue_frontend_styles(){
-		var_dump( wp_style_is( 'bootstrap', $list = 'enqueued' ) );
-		if ( false === wp_style_is( 'bootstrap', $list = 'enqueued' ) ) {
-			wp_enqueue_style( 'bootstrap' );
+	public function enqueue_frontend_styles() {
+
+		foreach ( $this->style_list as $key => $value ) {
+			if( true === wp_style_is( $value['handle'], $list = 'enqueued' ) ) {				
+				continue;
+			}
+			wp_enqueue_style( $value['handle'] );			
 		}
-		if ( false === wp_enqueue_style( 'test-style' ) ) {
-			wp_enqueue_style( 'test-style' );
-		}
-		
 		
 	}
 
@@ -305,7 +324,9 @@ final class Codexin_Elementor_Addons {
 	 */
 	public function admin_notice_missing_main_plugin() {
 
-		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: Elementor */
@@ -329,7 +350,9 @@ final class Codexin_Elementor_Addons {
 	 */
 	public function admin_notice_minimum_elementor_version() {
 
-		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
@@ -354,7 +377,9 @@ final class Codexin_Elementor_Addons {
 	 */
 	public function admin_notice_minimum_php_version() {
 
-		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: PHP 3: Required PHP version */

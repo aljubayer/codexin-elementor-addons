@@ -16,7 +16,7 @@
  * @since       1.0
  */
 
-if ( defined( 'ABSPATH' ) && ! defined( 'CODEXIN_ELEMENTOR_EXT' ) ) {
+if ( defined( 'ABSPATH' ) && ! defined( 'CODEXIN_ELEMENTOR_ADDONS' ) ) {
 
 	/**
 	 * Plugin directiory initialization.
@@ -26,9 +26,11 @@ if ( defined( 'ABSPATH' ) && ! defined( 'CODEXIN_ELEMENTOR_EXT' ) ) {
 	 * @var string plugin directory.
 	 */
 	define( 'CODEXIN_ELEMENTOR_ADDONS_DIR', trailingslashit( wp_normalize_path( trailingslashit( plugin_dir_path( __FILE__ ) ) ) ) );
+	define( 'CODEXIN_ELEMENTOR_ASSETS_BASE_URI', trailingslashit( wp_normalize_path( trailingslashit( plugin_dir_URL( __FILE__ ) ) ) ) );
 
 	
 	require_once CODEXIN_ELEMENTOR_ADDONS_DIR . 'inc/class-codexin-elementor-addons.php';
+	require_once CODEXIN_ELEMENTOR_ADDONS_DIR . 'inc/libs/helpers.php';
 
 	// Initializing the plugin.
 	Codexin_Elementor_Addons::instance();
