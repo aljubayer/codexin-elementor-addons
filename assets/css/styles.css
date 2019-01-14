@@ -30,7 +30,7 @@
 .codexin-elementor-addons-service:hover:before,
 .codexin-elementor-addons-service:hover:after{
 	transition: .5s ease;
-	width: 50%;
+	width: 100%;
 
 }
 
@@ -48,8 +48,9 @@
   vertical-align: middle;
   background: transparent;
   line-height: 18px;
-  transition: .5s;
+  transition: .5s ease;
 }
+
 .codexin-elementor-addons-btn-item::before, .codexin-elementor-addons-btn-item::after {
   box-sizing: inherit;
   content: '';

@@ -34,7 +34,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Service', 'codexin-elementor-addons' );
+		return esc_html__( 'Service', 'codexin-elementor-addons' );
 	}
 
 	/**
@@ -102,42 +102,31 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	/*
-	
-	container:
-	service_container_enable_overlay
-	service_container_overlay_color
 
-	title:
-	service_title
-	service_title_tag
-	service_title_color
-	service_title_typography
-	service_title_text_shadow
-	title_space_bottom
-
-	summary:
-	service_summary
-	service_summary_text_color
-	summary_typography
-	summary_text_shadow
-	summary_space_bottom
-
-
-	*/
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		echo '<div class="codexin-elementor-addons-service">';
 		echo '<div class="codexin-elementor-addons-contents">';
-		echo '<' . $settings['service_title_tag'] . ' class="codexin-elementor-addons-service-title">' . $settings['service_title'] . '</' . $settings['service_title_tag'] . '>';
-		echo '<p class="codexin-elementor-addons-service-summary">' . $settings['service_summary'] . '</p>';
+
+		if( !empty( $settings['service_title'] ) ){
+			echo '<' . $settings['service_title_tag'] . ' class="codexin-elementor-addons-service-title">' . $settings['service_title'] . '</' . $settings['service_title_tag'] . '>';
+		}
 		
-		echo '<div class="codexin-elementor-addons-action-container">';
-		echo '<button href="' . $settings['service_button_url'] . '" class="codexin-elementor-addons-btn-item ' . $settings['service_button_style'] . '">' ;
-		echo '<i class="' . $settings['service_button_icon']. '" aria-hidden="true"></i>';
-		echo $settings['service_button_text'];
-		echo '</button>';
-		echo '</div>';
+
+		if ( ! empty( $settings['service_summary'] ) ) {
+			echo '<p class="codexin-elementor-addons-service-summary">' . $settings['service_summary'] . '</p>';
+		}		
+		
+		if ( ! empty( $settings['service_button_text'] ) || ! empty( $settings['service_button_icon'] ) ) {
+			echo '<div class="codexin-elementor-addons-action-container">';
+			echo '<button href="' . $settings['service_button_url'] . '" class="codexin-elementor-addons-btn-item ' . $settings['service_button_style'] . '">' ;
+			echo '<i class="' . $settings['service_button_icon']. '" aria-hidden="true"></i>';
+			echo $settings['service_button_text'];
+			echo '</button>';
+			echo '</div>';
+		}
+		
+		
 		echo '</div>';
 		echo '</div>';
 
@@ -175,11 +164,11 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 	 * @access private
 	 */
 
-	public function service_widget_button_section(){
+	private function service_widget_button_section(){
 		$this->start_controls_section(
 			'service_button_section',
 			[
-				'label' 	=> __( 'Button', 'codexin-elementor-addons' ),
+				'label' 	=> esc_html__( 'Button', 'codexin-elementor-addons' ),
 				'tab' 		=> \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -187,7 +176,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_control(
 			'service_button_icon',
 			[
-				'label' => __( 'Button Icon', 'plugin-domain' ),
+				'label' => esc_html__( 'Button Icon', 'plugin-domain' ),
 				'type' => \Elementor\Controls_Manager::ICON,
 				'options' => \Elementor\Control_Icon::get_icons(),
 				'default' => 'fa fa-facebook',
@@ -197,7 +186,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_control(
 			'service_button_text',
 			[
-				'label' 		=> __( 'Button text', 'codexin-elementor-addons' ),
+				'label' 		=> esc_html__( 'Button text', 'codexin-elementor-addons' ),
 				'type' 			=> \Elementor\Controls_Manager::TEXT,
 				'input_type' 	=> 'text',
 				'placeholder' 	=> esc_html__( 'Write Button Text', 'codexin-elementor-addons' ),
@@ -209,7 +198,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'service_icon_text_spacing',
 			[
-				'label' => __( 'Spacing Between', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing Between', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -239,7 +228,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_control(
 			'service_button_url',
 			[
-				'label' 		=> __( 'Url', 'codexin-elementor-addons' ),
+				'label' 		=> esc_html__( 'Url', 'codexin-elementor-addons' ),
 				'type' 			=> \Elementor\Controls_Manager::TEXT,
 				'input_type' 	=> 'url',
 				'placeholder' 	=> esc_html__( 'http://example.com', 'codexin-elementor-addons' ),
@@ -252,34 +241,45 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'button_style_section',
 			[
-				'label' 	=> __( 'Button', 'codexin-elementor-addons' ),
+				'label' 	=> esc_html__( 'Button', 'codexin-elementor-addons' ),
 				'tab' 		=> \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
+
+		$this->start_controls_tabs( 'style_tab' );
+		$this->start_controls_tab(
+			'style_normal_tab',
+			[
+				'label'	=> esc_html__( 'Normal', 'codexin-elementor-addons' ),
+			]
+		);
+
+
+
 		$this->add_control(
 			'service_button_style',
 			[
-				'label' => __( 'Select button style', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Select button style', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
 					'spin circle' => [
-						'title' => __( 'Circle', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Circle', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-circle-o',
 					],
 					'draw' => [
-						'title' => __( 'Draw', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Draw', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-share-square',
 					],
 					'draw meet' => [
-						'title' => __( 'Draw Meet', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Draw Meet', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-caret-square-o-right',
 					],
 					'center' => [
-						'title' => __( 'Center', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Center', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-caret-square-o-down',
 					],
 					'spin' => [
-						'title' => __( 'Spin', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Spin', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-circle-o-notch',
 					]
 				],
@@ -288,15 +288,20 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 			]
 		);
 
+
+
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
 			[
 				'name' => 'service_button_background',
-				'label' => __( 'Background', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Background', 'codexin-elementor-addons' ),
 				'types' => [ 'gradient' ],
 				'selector' => '{{WRAPPER}} .codexin-elementor-addons-btn-item',
 			]
 		);
+
+
+
 
 	    $this->add_control( 
 	    	'service_button_text_color', 
@@ -308,10 +313,67 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 					        	],
         	] 
         );
+
+        $this->add_responsive_control(
+			'service_button_align',
+			[
+				'label' => esc_html__( 'Alignment', 'codexin-elementor-addons' ),
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => esc_html__( 'Left', 'codexin-elementor-addons' ),
+						'icon' => 'fa fa-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'codexin-elementor-addons' ),
+						'icon' => 'fa fa-align-center',
+					],
+					'right' => [
+						'title' => esc_html__( 'Right', 'codexin-elementor-addons' ),
+						'icon' => 'fa fa-align-right',
+					],
+				],
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],				
+				'selectors' => [
+					'{{WRAPPER}} .codexin-elementor-addons-service .codexin-elementor-addons-action-container' => 'text-align: {{VALUE}};',
+				],
+			]
+		);
+
+
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'service_button_typography',
+				'label' => esc_htmls__( 'Typography', 'codexin-elementor-addons' ),
+				'selector' => '{{WRAPPER}} .codexin-elementor-addons-btn-item, {{WRAPPER}} .codexin-elementor-addons-btn-item i',
+			]
+		);
+
+		$this->end_controls_tab();
+		
+		$this->start_controls_tab(
+			'style_hover_tab',
+			[
+				'label' => esc_html__( 'Hover', 'codexin-elementor-addons' ),
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Background::get_type(),
+			[
+				'name' => 'service_button_background_hover',
+				'label' => esc_html__( 'Background', 'codexin-elementor-addons' ),
+				'types' => [ 'gradient' ],
+				'selector' => '{{WRAPPER}} .codexin-elementor-addons-btn-item:hover',
+			]
+		);
+
 		$this->add_control( 
 	    	'service_button_hover_text_border_color', 
 	    	[
-	            'label'     => 	esc_html__( 'Hover Effect Color', 'codexin-elementor-addons' ),
+	            'label'     => 	esc_html__( 'Hover border olor', 'codexin-elementor-addons' ),
 	            'type'      =>  \Elementor\Controls_Manager::COLOR,
 	            'selectors' => 	[
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item:hover' => 'color: {{VALUE}};',
@@ -331,45 +393,8 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 					        	],
         	] 
         );
-
-        $this->add_responsive_control(
-			'service_button_align',
-			[
-				'label' => __( 'Alignment', 'codexin-elementor-addons' ),
-				'type' => \Elementor\Controls_Manager::CHOOSE,
-				'options' => [
-					'left' => [
-						'title' => __( 'Left', 'codexin-elementor-addons' ),
-						'icon' => 'fa fa-align-left',
-					],
-					'center' => [
-						'title' => __( 'Center', 'codexin-elementor-addons' ),
-						'icon' => 'fa fa-align-center',
-					],
-					'right' => [
-						'title' => __( 'Right', 'codexin-elementor-addons' ),
-						'icon' => 'fa fa-align-right',
-					],
-				],
-				'devices' => [ 'desktop', 'tablet', 'mobile' ],				
-				'selectors' => [
-					'{{WRAPPER}} .codexin-elementor-addons-service .codexin-elementor-addons-action-container' => 'text-align: {{VALUE}};',
-				],
-			]
-		);
-
-
-
-        $this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'service_button_typography',
-				'label' => __( 'Typography', 'codexin-elementor-addons' ),
-				//'scheme' => \Elementor\Scheme_Typography::TYPOGRAPHY_1,
-				'selector' => '{{WRAPPER}} .codexin-elementor-addons-btn-item, {{WRAPPER}} .codexin-elementor-addons-btn-item i',
-			]
-		);
-
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
 		$this->end_controls_section();
 	}
 
@@ -384,7 +409,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'section_service_container_style',
 			[
-				'label' 	=> __( 'Container', 'codexin-elementor-addons' ),
+				'label' 	=> esc_html__( 'Container', 'codexin-elementor-addons' ),
 				'tab' 		=> \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -395,7 +420,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Background::get_type(),
 			[
 				'name' => 'service_container_background',
-				'label' => __( 'Background', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Background', 'codexin-elementor-addons' ),
 				'types' => [ 'classic', 'gradient', 'video' ],
 				'selector' => '{{WRAPPER}} .codexin-elementor-addons-service',
 			]
@@ -404,7 +429,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'container_spacing_top',
 			[
-				'label' => __( 'Spacing Top', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing Top', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -434,7 +459,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'container_spacing_right',
 			[
-				'label' => __( 'Spacing right', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing right', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -464,7 +489,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'container_spacing_bottom',
 			[
-				'label' => __( 'Spacing bottom', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing bottom', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -494,7 +519,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'container_spacing_left',
 			[
-				'label' => __( 'Spacing left', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing left', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -520,22 +545,11 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 				],
 			]
 		);
-		// $this->add_control(
-		// 	'service_container_enable_overlay',
-		// 	[
-		// 		'label' => __( 'Show Overlay', 'codexin-elementor-addons' ),
-		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
-		// 		'label_on' => esc_html__( 'Show', 'codexin-elementor-addons' ),
-		// 		'label_off' => esc_html__( 'Hide', 'codexin-elementor-addons' ),
-		// 		'return_value' => 'yes',
-		// 		'default' => 'yes',
-		// 	]
-		// );
 
 		$this->add_control(
 			'service_container_overlay_color',
 			[
-				'label' => __( 'Overlay', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Overlay', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .codexin-elementor-addons-service:hover:before' => 'background: {{VALUE}}',
@@ -559,7 +573,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'section_service_title',
 			[
-				'label' 	=> __( 'Title', 'codexin-elementor-addons' ),
+				'label' 	=> esc_html__( 'Title', 'codexin-elementor-addons' ),
 				'tab' 		=> \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -567,7 +581,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_control(
 			'service_title',
 			[
-				'label' 		=> __( 'Title', 'codexin-elementor-addons' ),
+				'label' 		=> esc_html__( 'Title', 'codexin-elementor-addons' ),
 				'type' 			=> \Elementor\Controls_Manager::TEXT,
 				'input_type' 	=> 'text',
 				'placeholder' 	=> esc_html__( 'Your Service Title', 'codexin-elementor-addons' ),
@@ -578,19 +592,19 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'service_title_content_align',
 			[
-				'label' => __( 'Alignment', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Alignment', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Left', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Center', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Right', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-right',
 					],
 				],
@@ -632,6 +646,8 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 					        	],
         	] 
         );
+
+
         $this->add_group_control( 
         	 \Elementor\Group_Control_Typography::get_type(), 
         	[
@@ -643,7 +659,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'service_title_text_shadow',
-				'label' => __( 'Text Shadow', 'plugin-domain' ),
+				'label' => esc_html__( 'Text Shadow', 'plugin-domain' ),
 				'selector' => '{{WRAPPER}} .codexin-elementor-addons-service .codexin-elementor-addons-service-title',
 			]
 		);
@@ -651,7 +667,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'title_space_bottom',
 			[
-				'label' => __( 'Spacing Bottom', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing Bottom', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -692,7 +708,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'summary_section',
 			[
-				'label' 	=> __( 'Content', 'codexin-elementor-addons' ),
+				'label' 	=> esc_html__( 'Content', 'codexin-elementor-addons' ),
 				'tab' 		=> \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -711,19 +727,19 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'service_summary_content_align',
 			[
-				'label' => __( 'Alignment', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Alignment', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Left', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Center', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', 'codexin-elementor-addons' ),
+						'title' => esc_html__( 'Right', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-align-right',
 					],
 				],
@@ -766,7 +782,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'summary_space_bottom',
 			[
-				'label' => __( 'Spacing Bottom', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Spacing Bottom', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
