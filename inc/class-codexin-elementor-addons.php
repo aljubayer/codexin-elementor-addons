@@ -72,6 +72,7 @@ final class Codexin_Elementor_Addons {
 
 	private $widget_enqueue_list = array(
 		'inc/widgets/class-codexin-elementor-service.php', 
+		'inc/widgets/class-codexin-elementor-latest-blogs.php',
 	);
 
 
@@ -86,7 +87,8 @@ final class Codexin_Elementor_Addons {
 	 */
 	
 	private $widget_list = array(
-		'\Codexin_Elementor_Service', 
+		'\Codexin_Elementor_Service',
+		'\Codexin_Elementor_Latest_Blog',
 	);
 
 	/**

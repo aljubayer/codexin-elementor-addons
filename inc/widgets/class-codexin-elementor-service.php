@@ -119,10 +119,10 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 		
 		if ( ! empty( $settings['service_button_text'] ) || ! empty( $settings['service_button_icon'] ) ) {
 			echo '<div class="codexin-elementor-addons-action-container">';
-			echo '<button href="' . $settings['service_button_url'] . '" class="codexin-elementor-addons-btn-item ' . $settings['service_button_style'] . '">' ;
+			echo '<a href="' . $settings['service_button_url'] . '" class="codexin-elementor-addons-btn-item ' . $settings['service_button_style'] . '">' ;
 			echo '<i class="' . $settings['service_button_icon']. '" aria-hidden="true"></i>';
 			echo $settings['service_button_text'];
-			echo '</button>';
+			echo '</a>';
 			echo '</div>';
 		}
 		
@@ -146,9 +146,9 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 				<h1 class="codexin-elementor-addons-service-title">{{{ settings.service_title }}}</h1>
 				<p class="codexin-elementor-addons-service-summary">{{{ settings.service_summary }}}</p>
 				<div class="codexin-elementor-addons-action-container">
-					<button href="{{{ settings.service_button_url }}}" class="codexin-elementor-addons-btn-item {{{ settings.service_button_style }}}">
+					<a href="{{{ settings.service_button_url }}}" class="codexin-elementor-addons-btn-item {{{ settings.service_button_style }}}">
 					<i class="{{{ settings.service_button_icon }}}" aria-hidden="true"></i>
-					{{{ settings.service_button_text }}}</button>
+					{{{ settings.service_button_text }}}</a>
 				</div>
 				
 			</div>
@@ -262,6 +262,10 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 				'label' => esc_html__( 'Select button style', 'codexin-elementor-addons' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
+					'normal-btn' => [
+						'title' => esc_html__( 'Normal', 'codexin-elementor-addons' ),
+						'icon' => 'fa fa-square',
+					],
 					'spin circle' => [
 						'title' => esc_html__( 'Circle', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-circle-o',
@@ -281,7 +285,8 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 					'spin' => [
 						'title' => esc_html__( 'Spin', 'codexin-elementor-addons' ),
 						'icon' => 'fa fa-circle-o-notch',
-					]
+					],
+					
 				],
 				'default' => 'center',
 				'toggle' => true,
@@ -306,7 +311,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 	    $this->add_control( 
 	    	'service_button_text_color', 
 	    	[
-	            'label'     => 	esc_html__( 'Color', 'codexin-elementor-addons' ),
+	            'label'     => 	esc_html__( 'Text Color', 'codexin-elementor-addons' ),
 	            'type'      =>  \Elementor\Controls_Manager::COLOR,
 	            'selectors' => 	[
 					            	'{{WRAPPER}} .codexin-elementor-addons-btn-item' => 'color: {{VALUE}};',
@@ -346,7 +351,7 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'service_button_typography',
-				'label' => esc_htmls__( 'Typography', 'codexin-elementor-addons' ),
+				'label' => esc_html__( 'Typography', 'codexin-elementor-addons' ),
 				'selector' => '{{WRAPPER}} .codexin-elementor-addons-btn-item, {{WRAPPER}} .codexin-elementor-addons-btn-item i',
 			]
 		);
@@ -370,26 +375,38 @@ class Codexin_Elementor_Service extends \Elementor\Widget_Base {
 			]
 		);
 
+	    $this->add_control( 
+	    	'service_button_hover_text_color', 
+	    	[
+	            'label'     => 	esc_html__( 'Text Color', 'codexin-elementor-addons' ),
+	            'type'      =>  \Elementor\Controls_Manager::COLOR,
+	            'selectors' => 	[
+					            	//'{{WRAPPER}} .codexin-elementor-addons-btn-item.normal-btn:hover' => 'color: {{VALUE}};',
+					            	'{{WRAPPER}} .codexin-elementor-addons-btn-item.spin:hover' => 'color: {{VALUE}};',
+					            	'{{WRAPPER}} .codexin-elementor-addons-btn-item.center:hover' => 'color: {{VALUE}};',
+					            	'{{WRAPPER}} .codexin-elementor-addons-btn-item.meet:hover' => 'color: {{VALUE}};',
+					            	'{{WRAPPER}} .codexin-elementor-addons-btn-item.draw:hover' => 'color: {{VALUE}};',
+					        	],
+				'default'	=> 'rgba(255,255,255,1)',
+        	] 
+        );
+
 		$this->add_control( 
 	    	'service_button_hover_text_border_color', 
 	    	[
 	            'label'     => 	esc_html__( 'Hover border olor', 'codexin-elementor-addons' ),
 	            'type'      =>  \Elementor\Controls_Manager::COLOR,
 	            'selectors' => 	[
-	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item:hover' => 'color: {{VALUE}};',
-	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.spin:hover' => 'color: {{VALUE}};',
+	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.normal-btn:hover' => 'border-color: {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.spin:hover::before' => 'border-top-color: {{VALUE}};border-right-color: {{VALUE}};border-bottom-color: {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.spin:hover::after' => 'border-top:2px solid {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.center::after' => 'border-left: 2px solid {{VALUE}}; border-right: 2px solid {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.center::before' => 'border-top: 2px solid {{VALUE}}; border-bottom: 2px solid {{VALUE}};',
-	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.center:hover' => 'color: {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.meet:hover::after' => 'border-bottom-color: {{VALUE}}; border-left-color: {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.meet:hover::before' => 'border-top-color: {{VALUE}}; border-right-color: {{VALUE}};',
-	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.meet:hover' => 'color: {{VALUE}};',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.draw:hover::after' => 'border-bottom-color: {{VALUE}};border-left-color: {{VALUE}}',
 	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.draw:hover::before' => 'border-top-color: {{VALUE}};border-right-color: {{VALUE}}',
-	            					'{{WRAPPER}} .codexin-elementor-addons-btn-item.draw:hover' => 'color: {{VALUE}};',
-
+	            					
 					        	],
         	] 
         );

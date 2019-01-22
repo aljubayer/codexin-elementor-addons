@@ -1,3 +1,6 @@
+/********************
+  Services Style
+********************/
 .codexin-elementor-addons-service{
 	position: relative;
 }
@@ -35,7 +38,9 @@
 }
 
 
-/**************/
+/********************
+  Buttons Style
+********************/
 .codexin-elementor-addons-btn-item {
   background: none;
   border: 0;
@@ -49,6 +54,7 @@
   background: transparent;
   line-height: 18px;
   transition: .5s ease;
+  padding: 10px 20px;
 }
 
 .codexin-elementor-addons-btn-item::before, .codexin-elementor-addons-btn-item::after {
@@ -58,9 +64,17 @@
   width: 100%;
   height: 100%;
 }
-
+.codexin-elementor-addons-btn-item.normal-btn {
+  transition: color 0.25s;
+  border: 2px solid transparent;
+}
+.codexin-elementor-addons-btn-item.normal-btn:hover{
+  transition: color 0.25s;
+  border: red;
+}
 .codexin-elementor-addons-btn-item.draw {
   transition: color 0.25s;
+
 }
 .codexin-elementor-addons-btn-item.draw::before, .codexin-elementor-addons-btn-item.draw::after {
   border: 2px solid transparent;
@@ -148,6 +162,9 @@
   width: 5em;
   height: 5em;
   padding: 0;
+  display: block;
+  text-align: center;
+  line-height: 5em;
 }
 .codexin-elementor-addons-btn-item.spin:hover {
   color: #ffffff;
@@ -189,3 +206,35 @@
   border-radius: 100%;
 }
 
+/********************
+  Latest Blog Style
+********************/
+
+.codexin-elementor-addons-latest-posts{
+  position: relative;
+}
+
+.codexin-elementor-addons-latest-posts::before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  background: rgba( 0, 0, 0, 0);
+  z-index: 9;
+  transition: .5s ease;
+  border-bottom: 2px solid rgba( 0, 0, 0, 0);
+}
+.codexin-elementor-addons-latest-posts::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  width: 0;
+  height: 100%;
+  background: rgba( 0, 0, 0, 0);
+  z-index: 9;
+  transition: .5s ease;
+  border-bottom: 2px solid rgba( 0, 0, 0, 0);
+}
